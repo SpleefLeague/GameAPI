@@ -1,0 +1,9 @@
+author: GameAPI
+authors: [Joba]
+description: SpleefLeague Game API
+main: com.spleefleague.gameapi.GameAPI
+name: GameAPI
+url: https://www.spleefleague.com/
+version: 1.0
+softdepend: [SpleefLeagueCore, ProtocolLib, FakeBlocks]
+loadbefore: [Commands, Parkour, SuperSpleef]
