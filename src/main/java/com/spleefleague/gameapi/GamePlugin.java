@@ -7,7 +7,6 @@ package com.spleefleague.gameapi;
 
 import com.spleefleague.core.SpleefLeague;
 import com.spleefleague.core.plugin.CorePlugin;
-import com.spleefleague.core.plugin.CorePlugin;
 import com.spleefleague.gameapi.events.PlayerEndedSpectatingEvent;
 import com.spleefleague.gameapi.events.PlayerStartedSpectatingEvent;
 import com.spleefleague.gameapi.queue.Battle;

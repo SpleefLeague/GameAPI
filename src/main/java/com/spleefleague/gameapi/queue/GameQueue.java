@@ -21,8 +21,8 @@ import java.util.Set;
 public abstract class GameQueue<Q extends QueueableArena, P extends GeneralPlayer> {
 
     private final Collection<Q> queuedArenas;
-    private final Map<Q, Set<P>> queues;
     private final Map<Q, QueueMetadata> metadata;
+    protected final Map<Q, Set<P>> queues;
 
     public GameQueue() {
         this.queuedArenas = new HashSet<>();
@@ -60,7 +60,7 @@ public abstract class GameQueue<Q extends QueueableArena, P extends GeneralPlaye
     }
 
     public boolean isQueued(P player) {
-        for (Set<P> queue : queues.values()) {
+        for (Set<P> queue : getQueues().values()) {
             if (queue.contains(player)) {
                 return true;
             }

@@ -33,7 +33,7 @@ public class RatedGameQueue<Q extends QueueableArena, P extends GeneralPlayer> e
     public static final int WAIT_TIME_INCOMPLETE_MATCH = 2;
 
     public RatedGameQueue(Consumer<Match> matchConsumer, Function<P, Integer> ratingFunction) {
-        getQueues().put(null, new HashSet<>());
+        queues.put(null, new HashSet<>());
         this.matchConsumer = matchConsumer;
         this.ratingFunction = ratingFunction;
         gameQueues.add(this);

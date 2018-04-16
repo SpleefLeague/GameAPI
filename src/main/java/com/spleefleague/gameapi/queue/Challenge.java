@@ -51,7 +51,7 @@ public abstract class Challenge<P extends Player> {
             GamePlayer gp = GameAPI.getInstance().getPlayerManager().get(challenger);
             this.challenged.put(challenger.getUniqueId(), new Tuple<>(challenger, gp));
         }
-        this.required = challenged.size();
+        this.required = this.challenged.size();
         Bukkit.getScheduler().runTaskLater(GameAPI.getInstance(), this::done, duration * 20);
     }
     
@@ -75,6 +75,7 @@ public abstract class Challenge<P extends Player> {
     }
 
     public void accept(Player player) {
+        System.out.println(player.getName() + " is acceping");
         GamePlayer gamePlayer = GameAPI.getInstance().getPlayerManager().get(player);
         if(!gamePlayer.getActiveChallenges().containsKey(challengeId)) {
             gamePlayer.sendMessage(SpleefLeague.getInstance().getChatPrefix() + " " + ChatColor.RED + "Your challenge is invalid");
@@ -119,9 +120,9 @@ public abstract class Challenge<P extends Player> {
         }
         BaseComponent[] accept
                 = new ComponentBuilder(prefix)
-                .append(" [").color(ChatColor.GRAY.asBungee()).append("Accept").color(ChatColor.DARK_GREEN.asBungee()).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/challenge accept " + challenger.getName())).append("]").color(ChatColor.GRAY.asBungee())
+                .append(" [").color(ChatColor.GRAY.asBungee()).append("Accept").color(ChatColor.DARK_GREEN.asBungee()).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/challenge accept " + this.challengeId)).append("]").color(ChatColor.GRAY.asBungee())
                 .append(" - ")
-                .append("[").color(ChatColor.GRAY.asBungee()).append("Decline").color(ChatColor.RED.asBungee()).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/challenge decline " + challenger.getName())).append("]").color(ChatColor.GRAY.asBungee())
+                .append("[").color(ChatColor.GRAY.asBungee()).append("Decline").color(ChatColor.RED.asBungee()).event(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/challenge decline " + this.challengeId)).append("]").color(ChatColor.GRAY.asBungee())
                 .create();
         for (Player player : target) {
             player.spigot().sendMessage(intro);
