@@ -18,7 +18,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -41,15 +41,15 @@ public abstract class Challenge<P extends Player> {
     public Challenge(P challenger, Collection<P> challenged) {
         this.challenger = challenger;
         challengeId = UUID.randomUUID();
-        this.challenged = new HashMap<>();
+        this.challenged = new LinkedHashMap<>();//Keep insertion order
+        if(challenger != null) {
+            GamePlayer gp = GameAPI.getInstance().getPlayerManager().get(challenger);
+            this.challenged.put(challenger.getUniqueId(), new Tuple<>(challenger, gp));
+        }
         for(P p : challenged) {
             GamePlayer gp = GameAPI.getInstance().getPlayerManager().get(p);
             this.challenged.put(p.getUniqueId(), new Tuple<>(p, gp));
             gp.getActiveChallenges().put(challengeId, this);
-        }
-        if(challenger != null) {
-            GamePlayer gp = GameAPI.getInstance().getPlayerManager().get(challenger);
-            this.challenged.put(challenger.getUniqueId(), new Tuple<>(challenger, gp));
         }
         this.required = this.challenged.size();
         Bukkit.getScheduler().runTaskLater(GameAPI.getInstance(), this::done, duration * 20);
@@ -59,6 +59,7 @@ public abstract class Challenge<P extends Player> {
         if(!active) return;
         active = false;
         List<P> accepted = getAccepted();
+        accepted.removeIf(p -> !p.isOnline());
         accepted.removeIf(p -> GamePlugin.isIngameGlobal(p));
         challenged.values().forEach(p -> p.y.getActiveChallenges().remove(challengeId));
         if(accepted.size() >= required) {

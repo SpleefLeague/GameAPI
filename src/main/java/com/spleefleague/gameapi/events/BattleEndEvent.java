@@ -38,8 +38,6 @@ public class BattleEndEvent extends BattleEvent {
     public static enum EndReason {
         NORMAL,
         CANCEL,
-        ENDGAME,
-        SURRENDER,
-        QUIT;
+        ENDGAME;
     }
 }
