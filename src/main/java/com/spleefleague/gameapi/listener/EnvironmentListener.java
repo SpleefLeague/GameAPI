@@ -18,7 +18,7 @@ import com.spleefleague.gameapi.events.BattleStartEvent;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_12_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_13_R1.entity.CraftPlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -56,7 +56,14 @@ public class EnvironmentListener implements Listener {
         Bukkit.getScheduler().runTaskLater(SpleefLeague.getInstance(), () -> {
             //Handle people in battle seeing others.
             List<PlayerInfoData> list = new ArrayList<>();
-            SpleefLeague.getInstance().getPlayerManager().getAll().forEach((SLPlayer slPlayer) -> list.add(new PlayerInfoData(WrappedGameProfile.fromPlayer(slPlayer.getPlayer()), ((CraftPlayer) slPlayer.getPlayer()).getHandle().ping, EnumWrappers.NativeGameMode.SURVIVAL, WrappedChatComponent.fromText(slPlayer.getTabName()))));
+            SpleefLeague.getInstance().getPlayerManager().getAll().forEach((SLPlayer slPlayer) -> 
+                    list.add(
+                            new PlayerInfoData(
+                                    WrappedGameProfile.fromPlayer(slPlayer.getPlayer()), 
+                                    ((CraftPlayer) slPlayer.getPlayer()).getHandle().ping, 
+                                    EnumWrappers.NativeGameMode.SURVIVAL, 
+                                    WrappedChatComponent.fromText(slPlayer.getTabName())
+                            )));
             WrapperPlayServerPlayerInfo packet = new WrapperPlayServerPlayerInfo();
             packet.setAction(EnumWrappers.PlayerInfoAction.ADD_PLAYER);
             packet.setData(list);
